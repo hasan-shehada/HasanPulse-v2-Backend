@@ -8,17 +8,20 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://your-frontend.pages.dev"
+  "https://hasan-pulse.pages.dev"
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
+    const cleanOrigin = origin.replace(/\/$/, "");
+
+    if (allowedOrigins.includes(cleanOrigin)) {
       return callback(null, true);
     }
 
+    console.log("Blocked CORS origin:", origin);
     return callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
